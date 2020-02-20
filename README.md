@@ -2,11 +2,11 @@
 
 SQL scripts to create Data Quality tables that can be used with data visualization software such as Tableau or PowerBI
 
-The default output table looks like this
+The default output table looks like this:
 
 
 | TableName  | ColumnName | RecordCount | nonValCount  | 
-| ---------- |-------------|-----|
+| ---------- |-------------|-----| ----- |
 | MyTable    | MyColumn | 3678 | 2167|
 | MyTable    | AnotherColumn | 2567 | 2141|
 | AnotherTable    | AnoColumn | 256 | 214 |
