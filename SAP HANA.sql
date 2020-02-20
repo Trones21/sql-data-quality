@@ -5,7 +5,7 @@ Note: This hasn't beeen tested, I made some modifications to make it more generi
 -- Setup
 /*
 
-alter procedure "CVENT"."GetNonValsCount"(IN schematable NVARCHAR(255), IN Col NVARCHAR(255), out nonValsCnt integer)
+alter procedure "PK_ToUse - Enter Schema"."GetNonValsCount"(IN schematable NVARCHAR(255), IN Col NVARCHAR(255), out nonValsCnt integer)
 as begin
 
 execute immediate 'select COUNT(TO_NVARCHAR("' || :Col || '")) from "' || :schematable ||'"
@@ -52,7 +52,7 @@ for i in 1..:maxNum do
 	select COLUMN_NAME into columnString from :ColumnList where rn = i;
 	select :TgtSchema || "." || TABLE_NAME into tablestring from :ColumnList where rn = i;
 	
-	call "CVENT"."GetNonValsCount"(schematableString ,columnString, nonValsCnt);
+	call "PK_ToUse - Enter Schema"."GetNonValsCount"(schematableString ,columnString, nonValsCnt);
 	insert into nonValsCntTable values(columnString, nonValsCnt, tableString);
 
 end for;
