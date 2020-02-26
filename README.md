@@ -13,12 +13,12 @@ In theory you could unpivot everything (see unpivot-sql)
 but as the database becomes larger, this becomes infeasible. I also think it is a bit easier to work with Tableau 
 when you have 1 record per column rather than a varying number of records per column. 
 
-###Examples:
+### Examples:
 Sometimes you will takeover existing databases that were developed by over people.
 Sometimes the database is pulling data directly from an api. You have no nullable control.(Real world situation I wrote this for)
 Sometimes apps may be written to just insert a blank. In technical terms this may not be the same thing as a null, but in terms of business value it's as useful as null. 
 
-###Obtaining value from this:
+### Obtaining value from this:
 Lets say you have two fields EmailAddress and Company. 
 In the origin application EmailAddress is required, but company is not.
 Upon Analyzing the Tableau workbook you see that 8% of records have a company and 100% have an email address.
@@ -28,7 +28,7 @@ nor do you know how many will respond.
 Most email address are text@<company>.<com|org|etc> . So just do a little Regex in Tableau to isolate the company :) 
 
  
-##Description:
+## Description:
 SQL scripts to create Data Quality tables that can be used with data visualization software such as Tableau or PowerBI
 
 PKS_ToDo (modify/add) - I have included some sample Tableau dashboards that use the output data. (Examples use the sample worldwideimporters database from Microsoft)  
