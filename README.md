@@ -3,7 +3,11 @@
 SQL scripts to create Data Quality tables for use with data visualization software such as Tableau and PowerBI.
 
 ## Purpose/Reasoning:
-To get a birds eye view of your database.
+1. To get a birds eye view of your database.
+
+2. To drill down into specific tables and columns to find insights 
+
+   
 
 Databases have valuable meta-data such as: 
 
@@ -13,16 +17,15 @@ Databases have valuable meta-data such as:
 In theory you could unpivot everything (see unpivot-sql) but as the database becomes larger, this becomes infeasible. I also think it is a bit easier to work with Tableau when you have 1 record per column rather than a varying number of records per column. 
 
 ### Example Use Cases:
-Sometimes you will takeover existing databases that were developed by over people.
+- Continuous Monitoring / Improvement: As more records are inserted into the database, the metadata will change 
+- When you takeover responsibility for pre-existing databases.
+- The database is pulling data directly from an api. You have no nullable control. (Real world situation I wrote this for)
 
-Sometimes the database is pulling data directly from an api. You have no nullable control.(Real world situation I wrote this for)
-
-Sometimes apps may be written to just insert a blank. In technical terms this may not be the same thing as a null, but in terms of business value it's as useful as null. 
+- Apps may be written to just insert a blank. In technical terms this may not be the same thing as a null, but in terms of business value it's as useful as null.
 
 ### Obtaining Business value from this Script:
-Lets say you have two fields EmailAddress and Company. 
-In the origin application EmailAddress is required, but company is not.
-Upon Analyzing the Tableau workbook you see that 8% of records have a company and 100% have an email address.
+Lets say you have two fields EmailAddress and Company. In the origin application EmailAddress is required, but company is not.Upon Analyzing the Tableau workbook you see that 8% of records have a company and 100% have an email address.
+
 You want to kow which companies your contacts work for. You could send out an email asking people to update their info, but let's say you don't have time to wait for responses,
 nor do you know how many will respond.
 
@@ -32,7 +35,7 @@ Most email address are text@<company>.<com|org|etc> . So just do a little Regex 
 
 
 ## Description:
-SQL scripts to create Data Quality tables that can be used with data visualization software such as Tableau or PowerBI
+SQL scripts to create Data Quality tables for use with data visualization software such as Tableau or PowerBI
 
 I have included some sample Tableau dashboards that use the output data. Examples use the sample WideWorldImporters database from Microsoft. You can also find these dashbpards on my Tableau Public profile:
 https://public.tableau.com/profile/thomas.j.rones#!/
