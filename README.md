@@ -15,7 +15,9 @@ when you have 1 record per column rather than a varying number of records per co
 
 ### Examples:
 Sometimes you will takeover existing databases that were developed by over people.
+
 Sometimes the database is pulling data directly from an api. You have no nullable control.(Real world situation I wrote this for)
+
 Sometimes apps may be written to just insert a blank. In technical terms this may not be the same thing as a null, but in terms of business value it's as useful as null. 
 
 ### Obtaining value from this:
@@ -31,7 +33,9 @@ Most email address are text@<company>.<com|org|etc> . So just do a little Regex 
 ## Description:
 SQL scripts to create Data Quality tables that can be used with data visualization software such as Tableau or PowerBI
 
-PKS_ToDo (modify/add) - I have included some sample Tableau dashboards that use the output data. (Examples use the sample worldwideimporters database from Microsoft)  
+I have included some sample Tableau dashboards that use the output data. (Examples use the sample worldwideimporters database from Microsoft)  
+You can also find these on my Tableau Public profile:
+https://public.tableau.com/profile/thomas.j.rones#!/
 
 The default output table looks like this:
 
@@ -42,7 +46,6 @@ The default output table looks like this:
 | AnotherTable    | AnoColumn | 256 | 214 |
 
 nonValCount - Is the number of rows where the value is null or ''
-
 
 This format can be modified to output anything desired - just modify:
 -The table you insert into
