@@ -1,58 +1,17 @@
-/****** Script for SelectTopNRows command from SSMS  ******/
+/** To use this script just change the DB name in the columnCursor **/
+/** Tested with SQL Server 2016 **/
 
-create table #Writeto (TableName NVARCHAR(MAX), NameLength INT);
-
-insert into #Writeto values('test' , 4);
-
-Declare @Name NVARCHAR(MAX);
-Declare @NameLength INT;
-
-declare testCursor Cursor
-	for SELECT [name], LEN([name]) as NameLength FROM [WideWorldImporters].[sys].[all_objects] where [type_desc] = 'USER_TABLE';
-
-open testCursor;
-
-Fetch Next from testCursor into @Name, @NameLength;
-
-while @@FETCH_STATUS = 0
-	BEGIN
-		insert into #Writeto values(@Name , @NameLength);
-		Fetch Next from testCursor into @Name, @NameLength;
-	END;
-
-close testCursor;
-
-deallocate testCursor;
-
-
-select * from #Writeto;
-
---Instructions:
--- Search for PK_ToDo and follow instructions 
-
---PK_ToDo - Optional - Persist to your table instead of temp table #Results 
 create table #Results(
-TableName NVARCHAR(MAX), 
-ColumnName NVARCHAR(MAX),
+[Schema] NVARCHAR(MAX),
+[Table] NVARCHAR(MAX), 
+[Column] NVARCHAR(MAX),
 RecordCount INT,
 nonValCount INT);
 
---PkK_ToDo - Multiple ways to get row counts, choose one:
---1.Cursor + Dynamic SQL 
-declare tableCursor Cursor 
-for
-SELECT TOP (1000) [TABLE_CATALOG]
-      ,[TABLE_SCHEMA]
-      ,[TABLE_NAME]
-      ,[TABLE_TYPE]
-	  --PK_ToDo --Change db name Here
-  FROM [WideWorldImporters].[INFORMATION_SCHEMA].[TABLES]
-
---2.SQL - Join 
-
-
-
-
+declare @schema NVARCHAR(MAX), @table NVARCHAR(MAX), @column NVARCHAR(MAX);
+declare @recordCount INT;
+declare @nonValCount INT;
+declare @SQL NVARCHAR(MAX);
 
 declare columnCursor Cursor
 for
@@ -60,47 +19,45 @@ SELECT
 	[TABLE_SCHEMA]
       ,[TABLE_NAME]
       ,[COLUMN_NAME]
-	  --PK_ToDo -- Change db name here
-  FROM [WideWorldImporters].[INFORMATION_SCHEMA].[COLUMNS]
+	  --Change DB name 
+  FROM [WideWorldImporters].[INFORMATION_SCHEMA].[COLUMNS];
 
-declare @schema NVARCHAR(MAX);
-declare @table NVARCHAR(MAX);
-declare @column NVARCHAR(MAX);
-declare @recordCount INT;
+open columnCursor;
+Fetch next from columnCursor into @schema, @table, @column;
 
-declare @SQL_recordCount NVARCHAR(MAX) = N'select COUNT(*) from [' + @schema + '].[' + @table + '];'
+while @@FETCH_STATUS = 0
+Begin
+	set @SQL  = 
+	N'Select @rcOUT = rc, @nvcOUT = nvc
+	from (
+	select
+	SUM(CASE 
+		WHEN ['+ @column +'] IS NULL THEN 1 
+		WHEN LTRIM(RTRIM(['+ @column +'])) = '''' THEN 1
+		END)	
+		as nvc,
 
-declare @SQL_nonValCount NVARCHAR(MAX) = 
-N'Select @out = COUNT(['+ @column +']) from ' + @schema + '.' + @table + ' 
-where [' + @column + '] IS NULL OR LTRIM(RTRIM([' + @column + '])) = '''';' ;
+	 COUNT(*) as rc 
+	 from [' + @schema + '].[' + @table + ']) as t1 ;' ;
+
+	 --Syntax Help: Sql Statement, Output Param Defintion, Assign output params to existing variables (backwards looking syntax)
+	EXEC sp_executesql @SQL, 
+	N'@rcOUT INT OUTPUT, @nvcOUT INT OUTPUT', 
+	@rcOUT = @recordCount OUTPUT, @nvcOUT = @nonValCount OUTPUT;
+
+	Insert into #Results values(@schema, @table, @column, @recordCount, @nonValCount);
+	Fetch next from columnCursor into @schema, @table, @column;
+End;
+close columnCursor;
+deallocate columnCursor;
 
 
-
---loop Columns
-set @schema = 'Sales';
-set @table = 'Invoices';
-set @Column = 'ContactPersonID';
-
-
-declare @nonValsCnt INT;
-
- --Syntax Help: Sql Statement, Output Param Defintion, Assign output param val to existing variable (backwards looking syntax)
-EXEC sp_executesql @SQL_nonValCount, N'@out INT OUTPUT', @out = @nonValsCnt OUTPUT;
-
-Insert into #Results(@schema, @table, @column, @recordCount, @nonValsCnt);
+-- If NonValCount is null, this means all values are filled, so we update the column to 0
+update #Results
+set nonValCount = 0
+where nonValCount is null
 
 
+select * from #Results
+order by [nonValCount] desc;
 
-
-
-Create Procedure GetNonValsCount(@table as NVARCHAR(MAX), @column as NVARCHAR(MAX), output @nonValsCnt INT)
-as
-begin
-	select COUNT(@column)
-
-end;
-
-Select COUNT([ContactPersonID]) from Sales.Invoices 
-
-Select COUNT([ContactPersonID]) from Sales.Invoices 
-where [ContactPersonID] IS NULL OR LTRIM(RTRIM([ContactPersonID])) = ''

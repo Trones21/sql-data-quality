@@ -60,7 +60,7 @@ Example Adding Multiple Procedures
 | Script/System | Status  					|
 | ------------- |:-------------------------:|
 |Microsoft Access | Planned |
-|Microsoft SQL Server| In Progress |
+|Microsoft SQL Server| Finished* |
 |MySQL| Planned |
 |Oracle | Planned |
 |PostGres| Planned |
@@ -70,7 +70,7 @@ Example Adding Multiple Procedures
 |Teradata|Considering|
 |Vertica|Considering|
 
-
+*SQL Server - Known Bug for Geo datatype 
 
 
 
