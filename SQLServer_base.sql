@@ -1,14 +1,28 @@
-/** To use this script just change the DB name in the columnCursor **/
-/** Tested with SQL Server 2016 **/
+/* Only outputs the current Data Quality, no history*/
+/* For use with Tableau dashboards */
+/* To use this script just change the DB name in the columnCursor */
+/* Tested with SQL Server 2016 */
 
-create table #Results(
-[Schema] NVARCHAR(MAX),
-[Table] NVARCHAR(MAX), 
-[Column] NVARCHAR(MAX),
+--Run this statement once to create the output table
+--Note: If you change the data quality table name or location, you will have to modify other parts of the script - Search for: PK_OtherDQTable
+Create table dbo.DataQualityCurrent(
+[Schema] NVARCHAR(128),
+[Table] NVARCHAR(128), 
+[Column] NVARCHAR(128),
 RecordCount INT,
 nonValCount INT);
 
-declare @schema NVARCHAR(MAX), @table NVARCHAR(MAX), @column NVARCHAR(MAX);
+/* Procedure */
+
+--Note: Could re-factor to avoid using temp table... but I see no reason to.
+create table #Results(
+[Schema] NVARCHAR(128),
+[Table] NVARCHAR(128), 
+[Column] NVARCHAR(128),
+RecordCount INT,
+nonValCount INT);
+
+declare @schema NVARCHAR(128), @table NVARCHAR(128), @column NVARCHAR(128);
 declare @recordCount INT;
 declare @nonValCount INT;
 declare @SQL NVARCHAR(MAX);
@@ -19,8 +33,10 @@ SELECT
 	[TABLE_SCHEMA]
       ,[TABLE_NAME]
       ,[COLUMN_NAME]
-	  --Change DB name 
-  FROM [WideWorldImporters].[INFORMATION_SCHEMA].[COLUMNS];
+	  --PK_ChangeDBName 
+  FROM [CryptoCurrencyScraperFirst.WebScrapeDbContext].[INFORMATION_SCHEMA].[COLUMNS]
+  --PK_OtherDQTable  -- Excludes our newly created table from the cursor
+  where NOT ([TABLE_SCHEMA] = 'dbo' and [TABLE_NAME] = 'DataQualityCurrent');
 
 open columnCursor;
 Fetch next from columnCursor into @schema, @table, @column;
@@ -51,13 +67,14 @@ End;
 close columnCursor;
 deallocate columnCursor;
 
-
 -- If NonValCount is null, this means all values are filled, so we update the column to 0
 update #Results
 set nonValCount = 0
-where nonValCount is null
+where nonValCount is null;
 
+--Refresh our table
+delete from dbo.DataQualityCurrent; 
+insert into dbo.DataQualityCurrent
+select * from #Results;
 
-select * from #Results
-order by [nonValCount] desc;
 
