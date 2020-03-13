@@ -24,9 +24,9 @@ In theory you could unpivot everything (see unpivot-sql) but as the database bec
 - Apps may be written to just insert a blank. In technical terms this may not be the same thing as a null, but in terms of business value it's as useful as null.
 
 ### Obtaining Business value from this Script:
-Lets say you have two fields EmailAddress and Company. In the origin application EmailAddress is required, but company is not.Upon Analyzing the Tableau workbook you see that 8% of records have a company and 100% have an email address.
+Lets say you have two fields EmailAddress and Company. In the origin application EmailAddress is required, but company is not. Upon Analyzing the Tableau workbook you see that 8% of records have a company and 100% have an email address.
 
-You want to kow which companies your contacts work for. You could send out an email asking people to update their info, but let's say you don't have time to wait for responses,
+You want to know which companies your contacts work for. You could send out an email asking people to update their info, but let's say you don't have time to wait for responses,
 nor do you know how many will respond.
 
 Most email address are text@<company>.<com|org|etc> . So just do a little Regex in Tableau to isolate the company :) 
@@ -37,18 +37,18 @@ Most email address are text@<company>.<com|org|etc> . So just do a little Regex 
 ## Description:
 SQL scripts to create Data Quality tables for use with data visualization software such as Tableau or PowerBI
 
-I have included some sample Tableau dashboards that use the output data. Examples use the sample WideWorldImporters database from Microsoft. You can also find these dashbpards on my Tableau Public profile:
+I have included some sample Tableau dashboards that use the output data. Examples use the sample WideWorldImporters database from Microsoft. You can also find these dashboards on my Tableau Public profile:
 https://public.tableau.com/profile/thomas.j.rones#!/
 
-The default output table looks like this:
+The default output table looks like this example:
 
-| TableName  | ColumnName | RecordCount | nonValCount  |
-| ---------- |-------------|-----| ----- |
-| MyTable    | MyColumn | 3678 | 2167|
-| MyTable    | AnotherColumn | 2567 | 2141|
-| AnotherTable    | AnoColumn | 256 | 214 |
+| TableName  | ColumnName | RecordCount | nonValCount  | distinctCount |
+| ---------- |-------------|-----| ----- | ----- |
+| Users | FirstName | 3678 | 2167| 1400 |
+| Users | Age | 2567 | 2141| 56 |
+| Orders | ID | 7986 | 7986 | 7986 |
 
-nonValCount - Is the number of rows where the value is null or ''
+**nonValCount** - The number of rows where the value is null or an empty string
 
 
 
@@ -62,30 +62,32 @@ This format can be modified to output anything desired - just modify:
 
 ### Modification Examples:
 
--PKS_Section ToDo - Include code snippets for these:
+-PKS_Section ToDo - Include some code snippets
 
-Uniqueness Measure - Count distinct of the dimension members (cells in column) 
 
-Example Adding Multiple Procedures
+
+## Youtube Videos
+
+[Explanation of Initial Dashboards](https://www.youtube.com/watch?v=y6bVVeqySCw)
 
 
 
 
 ## Script Status
-| Script/System | Status  					|
-| ------------- |:-------------------------:|
-|Microsoft Access | Planned |
-|Microsoft SQL Server| Finished* |
-|MySQL| Planned |
-|Oracle | Planned |
-|PostGres| Planned |
-|Redshift| Considering |
-|SAP HANA 	| 	Finished - Untested  	|
-|SQLite|Considering|
-|Teradata|Considering|
-|Vertica|Considering|
+| System               | Base Script (Snapshot) | With History / Periodic Trigger |
+| ------------- | ------------- | ------------- |
+|Microsoft Access | Planned |  |
+|Microsoft SQL Server| Finished** | In Progress |
+|MySQL| Finished |  |
+|Oracle | Planned |  |
+|PostGres| Planned |  |
+|Redshift| Considering |  |
+|SAP HANA 	| 	Finished** - Untested  | 	  	|
+|SQLite|Considering||
+|Teradata|Considering||
+|Vertica|Considering||
 
 *SQL Server - Script works, but there is 1 known bug - cannot use R/LTRIM() for geo datatype.   
 
-
+** Doesn't have the distinct count yet, I added this in the MySQL one.
 
