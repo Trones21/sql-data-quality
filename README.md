@@ -76,11 +76,10 @@ This format can be modified to output anything desired - just modify:
 ## Script Status
 | System               | Base Script (Snapshot) | With History / Periodic Trigger |
 | ------------- | ------------- | ------------- |
-|Microsoft Access | Planned |  |
 |Microsoft SQL Server| Finished** | In Progress |
 |MySQL| Finished |  |
-|Oracle | Planned |  |
-|PostGres| Planned |  |
+|Oracle | Considering |  |
+|PostGres| Considering |  |
 |Redshift| Considering |  |
 |SAP HANA 	| 	Finished** - Untested  | 	  	|
 |SQLite|Considering||
