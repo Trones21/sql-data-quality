@@ -2,7 +2,7 @@
 
 SQL scripts to create a Data Quality table (metadata about your database) for use with data viz software such as Tableau or PowerBI.
 
-![Data Quality Overview](https://imgur.com/DVvNMjM)
+![Data Quality Overview](https://imgur.com/DVvNMjM.png)
 
 ## Purpose/Reasoning:
 1. To get a birds eye view of your database.
