@@ -1,6 +1,8 @@
 # sql-data-quality
 
-SQL scripts to create Data Quality tables for use with data visualization software such as Tableau and PowerBI.
+SQL scripts to create a Data Quality table (metadata about your database) for use with data viz software such as Tableau or PowerBI.
+
+![Data Quality Overview](https://imgur.com/DVvNMjM)
 
 ## Purpose/Reasoning:
 1. To get a birds eye view of your database.
