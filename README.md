@@ -16,8 +16,6 @@ Databases have valuable meta-data such as:
 - the number of nulls and blanks(completeness), 
 - the distinct number of values in a column (uniqueness)  
 
-In theory you could unpivot everything (see unpivot-sql) but as the database becomes larger, this becomes infeasible. I also think it is a bit easier to work with Tableau when you have 1 record per column rather than a varying number of records per column. 
-
 ### Example Use Cases:
 - Continuous Monitoring / Improvement: As more records are inserted into the database, the metadata will change 
 - When you takeover responsibility for pre-existing databases.
