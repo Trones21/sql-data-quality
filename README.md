@@ -42,11 +42,11 @@ https://public.tableau.com/profile/thomas.j.rones#!/
 
 The default output table looks like this example:
 
-| TableName  | ColumnName | RecordCount | nonValCount  | distinctCount |
-| ---------- |-------------|-----| ----- | ----- |
-| Users | FirstName | 3678 | 2167| 1400 |
-| Users | Age | 2567 | 2141| 56 |
-| Orders | ID | 7986 | 7986 | 7986 |
+| Schema | Table  | Column | RecordCount | nonValCount  | distinctCount |
+|----------| ---------- |-------------|-----| ----- | ----- |
+| MySchema | Users | FirstName | 3678 | 2167| 1400 |
+| MySchema | Users | Age | 2567 | 2141| 56 |
+| MySchema | Orders | ID | 7986 | 7986 | 7986 |
 
 **nonValCount** - The number of rows where the value is null or an empty string
 
@@ -74,8 +74,9 @@ This format can be modified to output anything desired - just modify:
 
 
 ## Script Status
-| System               | Base Script (Snapshot) | With History / Periodic Trigger |
+| System               | Base Script (Snapshot) | With History / Periodic Trigger | Notes |
 | ------------- | ------------- | ------------- |
+|AWS Athena | In Progress | | No Dynamic SQL, Must Automate UI with JavaScript instead |
 |Microsoft SQL Server| Finished** | In Progress |
 |MySQL| Finished |  |
 |Oracle | Considering |  |
