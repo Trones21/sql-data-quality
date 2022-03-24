@@ -75,7 +75,7 @@ This format can be modified to output anything desired - just modify:
 
 ## Script Status
 | System               | Base Script (Snapshot) | With History / Periodic Trigger | Notes |
-| ------------- | ------------- | ------------- |
+| ------------- | ------------- | ------------- | -------------- |
 |AWS Athena | In Progress | | No Dynamic SQL, Must Automate UI with JavaScript instead |
 |Microsoft SQL Server| Finished** | In Progress |
 |MySQL| Finished |  |
